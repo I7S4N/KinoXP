@@ -12,4 +12,12 @@ public class Theater {
     @Column(nullable = false)
     private int numberOfRows;
 
+    @Column(nullable = false)
+    private int seatsPerRow;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TheaterType type;
+
 }
