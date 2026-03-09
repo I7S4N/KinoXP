@@ -1,6 +1,5 @@
 package project.kinoxpx.repository;
 
-import project.kinoxpx.model.Reservation;
 import project.kinoxpx.model.Showing;
 import org.springframework.data.jpa.repository.JpaRepository;
 
