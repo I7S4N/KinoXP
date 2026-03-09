@@ -1,10 +1,10 @@
-package service;
+package project.kinoxpx.service;
 
-import dto.CreateMovieRequest;
-import dto.MovieResponse;
-import model.Movie;
+import project.kinoxpx.dto.CreateMovieRequest;
+import project.kinoxpx.dto.MovieResponse;
+import project.kinoxpx.model.Movie;
 import org.springframework.stereotype.Service;
-import repository.MovieRepository;
+import project.kinoxpx.repository.MovieRepository;
 
 import java.util.List;
 

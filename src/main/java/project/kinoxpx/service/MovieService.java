@@ -1,7 +1,7 @@
-package service;
+package project.kinoxpx.service;
 
-import dto.CreateMovieRequest;
-import dto.MovieResponse;
+import project.kinoxpx.dto.CreateMovieRequest;
+import project.kinoxpx.dto.MovieResponse;
 
 import java.util.List;
 

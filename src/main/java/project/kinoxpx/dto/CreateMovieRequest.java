@@ -1,4 +1,4 @@
-package dto;
+package project.kinoxpx.dto;
 
 public class CreateMovieRequest {
     private String title;

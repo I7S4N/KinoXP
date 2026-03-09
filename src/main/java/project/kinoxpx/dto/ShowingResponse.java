@@ -1,4 +1,4 @@
-package dto;
+package project.kinoxpx.dto;
 
 import java.time.LocalDateTime;
 

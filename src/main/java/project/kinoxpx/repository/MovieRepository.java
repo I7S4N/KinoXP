@@ -1,6 +1,6 @@
-package repository;
+package project.kinoxpx.repository;
 
-import model.Movie;
+import project.kinoxpx.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {

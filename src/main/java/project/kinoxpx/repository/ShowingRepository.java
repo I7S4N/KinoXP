@@ -1,7 +1,7 @@
-package repository;
+package project.kinoxpx.repository;
 
-import model.Reservation;
-import model.Showing;
+import project.kinoxpx.model.Reservation;
+import project.kinoxpx.model.Showing;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
