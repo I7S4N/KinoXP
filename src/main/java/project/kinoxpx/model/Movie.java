@@ -71,6 +71,8 @@ public class Movie {
 
     public void setDurationMin(int durationMin) {
         this.durationMin = durationMin;
+    public int getDurationMinutes() {
+        return durationMinutes;
     }
 
     public int getAgeLimit() {
@@ -95,5 +97,17 @@ public class Movie {
 
     public void setIs3d(boolean is3d) {
         this.is3d = is3d;
+    }
+}
+    public boolean isIs3D() {
+        return is3D;
+    }
+
+    public List<Showing> getShowings() {
+        return showings;
+    }
+
+    public void addShowing(Showing showing) {
+        showings.add(showing);
     }
 }

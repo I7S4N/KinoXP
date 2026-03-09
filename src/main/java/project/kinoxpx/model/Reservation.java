@@ -1,6 +1,5 @@
 package project.kinoxpx.model;
 
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,8 +43,6 @@ public class Reservation {
         this.seats = seats;
 
     }
-
-
 
     public Long getId() {
         return id;
@@ -101,5 +98,13 @@ public class Reservation {
 
     public void setSeats(List<ReservedSeats> seats) {
         this.seats = seats;
+    }
+}
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double price) {
+        this.totalPrice = price;
     }
 }

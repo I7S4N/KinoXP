@@ -25,6 +25,18 @@ public class Theater {
     public Theater(Long id, int numberOfRows, int seatsPerRow, TheaterType type) {
         this.id = id;
         this.numberOfRows = numberOfRows;
+public class Theater {
+
+    private Long id;
+    private String name;
+    private int rows;
+    private int seatsPerRow;
+    private String type;
+
+    public Theater(Long id, String name, int rows, int seatsPerRow, String type) {
+        this.id = id;
+        this.name = name;
+        this.rows = rows;
         this.seatsPerRow = seatsPerRow;
         this.type = type;
     }
