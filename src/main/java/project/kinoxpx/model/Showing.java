@@ -1,4 +1,4 @@
-package project.kinoxpx.Model;
+package project.kinoxpx.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
