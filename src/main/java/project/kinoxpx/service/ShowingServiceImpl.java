@@ -3,6 +3,7 @@ package project.kinoxpx.service;
 import org.springframework.stereotype.Service;
 import project.kinoxpx.dto.CreateShowingRequestDTO;
 import project.kinoxpx.dto.ShowingResponseDTO;
+import project.kinoxpx.exception.ResourceNotFoundException;
 import project.kinoxpx.model.Movie;
 import project.kinoxpx.model.Showing;
 import project.kinoxpx.model.Theater;
@@ -33,14 +34,14 @@ public class ShowingServiceImpl implements ShowingService {
         // Finder filmen i databasen via movieId fra request DTO
         // Hvis filmen ikke findes, kaster vi en fejl
         Movie movie = movieRepository.findById(req.movieId())
-                .orElseThrow(() ->
-                        new IllegalArgumentException("Movie was not found, are you sure you searched correctly?"));
+                .orElseThrow(() -> new ResourceNotFoundException("Movie with ID " + req.movieId() + " was not found"));
 
 
         // Finder salen i databasen via theaterId fra request DTO
         // Hvis den ikke findes, kaster vi en fejl
         Theater theater = theaterRepository.findById(req.theaterId())
-                .orElseThrow(() ->  new IllegalArgumentException("That theater does not exist..."));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Theater with ID " + req.theaterId() + " does not exist"));
 
 
         // Opretter en ny Showing entity

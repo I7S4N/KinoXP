@@ -2,6 +2,7 @@ package project.kinoxpx.service;
 
 import project.kinoxpx.dto.CreateMovieRequestDTO;
 import project.kinoxpx.dto.MovieResponseDTO;
+import project.kinoxpx.exception.InvalidRequestException;
 import project.kinoxpx.model.Movie;
 import org.springframework.stereotype.Service;
 import project.kinoxpx.repository.MovieRepository;
@@ -38,15 +39,15 @@ public class MovieServiceImpl implements MovieService {
 
         // ---------- Validering -----------------
         if (req.title() == null || req.title().isBlank()) {
-            throw new IllegalArgumentException("Title cannot be empty");
+            throw new InvalidRequestException("Title cannot be empty");
         }
 
         if (req.durationMin() <= 0) {
-            throw new IllegalArgumentException("Duration must be greater than 0");
+            throw new InvalidRequestException("Duration must be greater than 0");
         }
 
         if (req.year() < 1800 || req.year() > 2100) {
-            throw new IllegalArgumentException("Year is invalid");
+            throw new InvalidRequestException("Year is invalid");
         }
 
 
