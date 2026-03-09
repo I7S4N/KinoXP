@@ -19,9 +19,37 @@ public class MovieServiceImpl implements MovieService {
         this.movieRepository = movieRepository;
     }
 
+    // Mapper Movie entity til MovieResponseDTO
+    private MovieResponseDTO mapToDTO(Movie movie) {
+        return new MovieResponseDTO(
+                movie.getId(),
+                movie.getTitle(),
+                movie.getYear(),
+                movie.getDurationMin(),
+                movie.getAgeLimit(),
+                movie.getCategory(),
+                movie.isIs3d()
+        );
+    }
+
 
     @Override
     public MovieResponseDTO createMovie(CreateMovieRequestDTO req) {
+
+        // ---------- Validering -----------------
+        if (req.title() == null || req.title().isBlank()) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
+
+        if (req.durationMin() <= 0) {
+            throw new IllegalArgumentException("Duration must be greater than 0");
+        }
+
+        if (req.year() < 1800 || req.year() > 2100) {
+            throw new IllegalArgumentException("Year is invalid");
+        }
+
+
         // Mapper data fra CreateMovieRequest (DTO fra klienten) til Movie entity
         Movie movie = new Movie();
         movie.setTitle(req.title());
@@ -54,15 +82,10 @@ public class MovieServiceImpl implements MovieService {
         // Henter alle film fra databasen
         // Mapper hver Movie entity til MovieResponse DTO
         // Returnerer en liste af DTO’er til klienten
-        return movieRepository.findAll().stream().map(movie -> new MovieResponseDTO(
-                movie.getId(),
-                movie.getTitle(),
-                movie.getYear(),
-                movie.getDurationMin(),
-                movie.getAgeLimit(),
-                movie.getCategory(),
-                movie.isIs3d()
-        ))
+        return movieRepository.findAll()
+                .stream()
+                .map(this::mapToDTO)
                 .toList();
     }
+
 }
