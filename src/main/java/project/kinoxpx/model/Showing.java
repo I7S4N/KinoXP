@@ -12,7 +12,7 @@ public class Showing {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime localDateTime;
+    private LocalDateTime startTime;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -24,9 +24,9 @@ public class Showing {
 
     public Showing(){}
 
-    public Showing(Long id, LocalDateTime localDateTime, Movie movie, Theater theater) {
+    public Showing(Long id, LocalDateTime startTime, Movie movie, Theater theater) {
         this.id = id;
-        this.localDateTime = localDateTime;
+        this.startTime = startTime;
         this.movie = movie;
         this.theater = theater;
     }
@@ -39,12 +39,12 @@ public class Showing {
         this.id = id;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public Movie getMovie() {

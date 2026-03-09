@@ -1,7 +1,7 @@
 package project.kinoxpx.service;
 
-import project.kinoxpx.dto.CreateMovieRequest;
-import project.kinoxpx.dto.MovieResponse;
+import project.kinoxpx.dto.CreateMovieRequestDTO;
+import project.kinoxpx.dto.MovieResponseDTO;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ public interface MovieService {
     // det mere overskuelig at vide hvad sevice laget skal bruge
     // og hvad vores controler kan kalde på
 
-    MovieResponse createMovie(CreateMovieRequest req);
-    List<MovieResponse> getAllMovies();
+    MovieResponseDTO createMovie(CreateMovieRequestDTO req);
+    List<MovieResponseDTO> getAllMovies();
 }

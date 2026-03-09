@@ -1,7 +1,7 @@
 package project.kinoxpx.service;
 
-import project.kinoxpx.dto.CreateMovieRequest;
-import project.kinoxpx.dto.MovieResponse;
+import project.kinoxpx.dto.CreateMovieRequestDTO;
+import project.kinoxpx.dto.MovieResponseDTO;
 import project.kinoxpx.model.Movie;
 import org.springframework.stereotype.Service;
 import project.kinoxpx.repository.MovieRepository;
@@ -21,15 +21,15 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
-    public MovieResponse createMovie(CreateMovieRequest req) {
+    public MovieResponseDTO createMovie(CreateMovieRequestDTO req) {
         // Mapper data fra CreateMovieRequest (DTO fra klienten) til Movie entity
         Movie movie = new Movie();
-        movie.setTitle(req.getTitle());
-        movie.setYear(req.getYear());
-        movie.setCategory(req.getCategory());
-        movie.setDurationMin(req.getDurationMin());
-        movie.setAgeLimit(req.getAgeLimit());
-        movie.setIs3d(req.isIs3d());
+        movie.setTitle(req.title());
+        movie.setYear(req.year());
+        movie.setCategory(req.category());
+        movie.setDurationMin(req.durationMin());
+        movie.setAgeLimit(req.ageLimit());
+        movie.setIs3d(req.is3d());
 
         //Gemmer Movie entity i databasen viaMovieRepository
         movie = movieRepository.save(movie);
@@ -37,7 +37,7 @@ public class MovieServiceImpl implements MovieService {
 
         //Mapper den gemte Movie Entity til movieResponse DTO
         //DTO bruges til at sende data tilbage til klienten
-        return new MovieResponse(
+        return new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
                 movie.getYear(),
@@ -49,12 +49,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieResponse> getAllMovies() {
+    public List<MovieResponseDTO> getAllMovies() {
 
         // Henter alle film fra databasen
         // Mapper hver Movie entity til MovieResponse DTO
         // Returnerer en liste af DTO’er til klienten
-        return movieRepository.findAll().stream().map(movie -> new MovieResponse(
+        return movieRepository.findAll().stream().map(movie -> new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
                 movie.getYear(),
