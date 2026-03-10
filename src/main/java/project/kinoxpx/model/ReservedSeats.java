@@ -10,7 +10,7 @@ public class ReservedSeats {
     private Long id;
 
     @Column(nullable = false)
-    private Integer rowNumber;
+    private Integer seatRowNumber;
 
     @Column(nullable = false)
     private Integer seatNumber;
@@ -21,9 +21,9 @@ public class ReservedSeats {
 
     public ReservedSeats() {}
 
-    public ReservedSeats(Long id, Integer rowNumber, Integer seatNumber, Reservation reservation) {
+    public ReservedSeats(Long id, Integer seatRowNumber, Integer seatNumber, Reservation reservation) {
         this.id = id;
-        this.rowNumber = rowNumber;
+        this.seatRowNumber = seatRowNumber;
         this.seatNumber = seatNumber;
         this.reservation = reservation;
     }
@@ -36,12 +36,12 @@ public class ReservedSeats {
         this.id = id;
     }
 
-    public Integer getRowNumber() {
-        return rowNumber;
+    public Integer getSeatRowNumber() {
+        return seatRowNumber;
     }
 
-    public void setRowNumber(Integer rowNumber) {
-        this.rowNumber = rowNumber;
+    public void setSeatRowNumber(Integer rowNumber) {
+        this.seatRowNumber = rowNumber;
     }
 
     public Integer getSeatNumber() {

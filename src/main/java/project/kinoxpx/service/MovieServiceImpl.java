@@ -25,7 +25,7 @@ public class MovieServiceImpl implements MovieService {
         return new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
-                movie.getYear(),
+                movie.getMovieYear(),
                 movie.getDurationMin(),
                 movie.getAgeLimit(),
                 movie.getCategory(),
@@ -54,7 +54,7 @@ public class MovieServiceImpl implements MovieService {
         // Mapper data fra CreateMovieRequest (DTO fra klienten) til Movie entity
         Movie movie = new Movie();
         movie.setTitle(req.title());
-        movie.setYear(req.year());
+        movie.setMovieYear(req.year());
         movie.setCategory(req.category());
         movie.setDurationMin(req.durationMin());
         movie.setAgeLimit(req.ageLimit());
@@ -69,7 +69,7 @@ public class MovieServiceImpl implements MovieService {
         return new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
-                movie.getYear(),
+                movie.getMovieYear(),
                 movie.getDurationMin(),
                 movie.getAgeLimit(),
                 movie.getCategory(),

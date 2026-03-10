@@ -3,7 +3,6 @@ package project.kinoxpx.model;
 import jakarta.persistence.*;
 
 @Entity
-
 @Table(name = "movies")
 public class Movie {
 
@@ -15,7 +14,7 @@ public class Movie {
     private String title;
 
     @Column(length = 4)
-    private int year;
+    private int movieYear;
 
     @Column(nullable = false)
     private int durationMin;
@@ -28,10 +27,10 @@ public class Movie {
     @Column(nullable = false)
     private boolean is3d;
 
-    public Movie(Long id, String title, int year, int durationMin, int ageLimit, String category, boolean is3d) {
+    public Movie(Long id, String title, int movieYear, int durationMin, int ageLimit, String category, boolean is3d) {
         this.id = id;
         this.title = title;
-        this.year = year;
+        this.movieYear = movieYear;
         this.durationMin = durationMin;
         this.ageLimit = ageLimit;
         this.category = category;
@@ -57,12 +56,12 @@ public class Movie {
         this.title = title;
     }
 
-    public int getYear() {
-        return year;
+    public int getMovieYear() {
+        return movieYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setMovieYear(int year) {
+        this.movieYear = year;
     }
 
     public int getDurationMin() {
