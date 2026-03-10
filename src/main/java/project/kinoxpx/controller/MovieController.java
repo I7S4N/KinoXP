@@ -12,6 +12,4 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/")
-
 }
