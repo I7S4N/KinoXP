@@ -1,13 +1,13 @@
 package project.kinoxpx.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import project.kinoxpx.dto.CreateShowingRequestDTO;
 import project.kinoxpx.dto.ShowingResponseDTO;
 import project.kinoxpx.service.ShowingService;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,7 +25,13 @@ public class ShowingController {
     }
 
     @PostMapping
-    public ResponseEntity<ShowingResponseDTO> createShowing() {
-        ShowingResponseDTO
+    public ResponseEntity<ShowingResponseDTO> createShowing(@Valid @RequestBody CreateShowingRequestDTO showingRequest) {
+        ShowingResponseDTO newShowing = showingService.createShowing(showingRequest);
+        return ResponseEntity.created(URI.create("/api/users/" + newShowing.id())).body(newShowing);
     }
+
+    // TODO: update showing
+
+    // TODO: delete showing
+
 }

@@ -4,15 +4,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import project.kinoxpx.model.Movie;
 import project.kinoxpx.repository.MovieRepository;
+import project.kinoxpx.repository.ShowingRepository;
 
 import java.util.List;
 
 @Configuration
 public class InitData implements CommandLineRunner {
     private final MovieRepository movieRepository;
+    private final ShowingRepository showingRepository;
 
-    public InitData(MovieRepository movieRepository) {
+    public InitData(MovieRepository movieRepository, ShowingRepository showingRepository) {
         this.movieRepository = movieRepository;
+        this.showingRepository = showingRepository;
     }
 
     @Override
@@ -26,6 +29,8 @@ public class InitData implements CommandLineRunner {
         movieRepository.saveAll(List.of(
                 m1, m2, m3, m4, m5
         ));
+
+
     }
 
 
