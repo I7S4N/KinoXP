@@ -12,4 +12,6 @@ public interface MovieService {
 
     MovieResponseDTO createMovie(CreateMovieRequestDTO req);
     List<MovieResponseDTO> getAllMovies();
+    MovieResponseDTO updateMovie(Long id, CreateMovieRequestDTO req);
+    void deleteMovie(Long id);
 }
