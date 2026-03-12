@@ -15,17 +15,23 @@ public class ReservedSeats {
     @Column(nullable = false)
     private Integer seatNumber;
 
+
+    @ManyToOne
+    @JoinColumn(name = "showing_id", nullable = false)
+    private Showing showing;
+
     @ManyToOne
     @JoinColumn(name = "reservation_id", nullable = false)
     private Reservation reservation;
 
     public ReservedSeats() {}
 
-    public ReservedSeats(Long id, Integer seatRowNumber, Integer seatNumber, Reservation reservation) {
+    public ReservedSeats(Long id, Integer seatRowNumber, Integer seatNumber, Reservation reservation, Showing showing) {
         this.id = id;
         this.seatRowNumber = seatRowNumber;
         this.seatNumber = seatNumber;
         this.reservation = reservation;
+        this.showing = showing;
     }
 
     public Long getId() {
@@ -58,5 +64,13 @@ public class ReservedSeats {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+
+    public Showing getShowing() {
+        return showing;
+    }
+
+    public void setShowing(Showing showing) {
+        this.showing = showing;
     }
 }

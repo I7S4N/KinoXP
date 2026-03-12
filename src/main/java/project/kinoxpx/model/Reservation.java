@@ -13,7 +13,7 @@ public class Reservation {
     private Long id;
 
     @Column(nullable = false)
-    private String customerInfo;
+    private String customerName;
 
     @Column(nullable = false)
     private String ContactInfo;
@@ -33,10 +33,10 @@ public class Reservation {
 
     public Reservation(){}
 
-    public Reservation(Long id, String customerInfo, String contactInfo, int totalPrice,
+    public Reservation(Long id, String customerName, String contactInfo, int totalPrice,
                        LocalDateTime localDateTime, Showing showing, List<ReservedSeats> seats) {
         this.id = id;
-        this.customerInfo = customerInfo;
+        this.customerName = customerName;
         ContactInfo = contactInfo;
         this.totalPrice = totalPrice;
         this.localDateTime = localDateTime;
@@ -55,12 +55,12 @@ public class Reservation {
         this.id = id;
     }
 
-    public String getCustomerInfo() {
-        return customerInfo;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerInfo(String customerInfo) {
-        this.customerInfo = customerInfo;
+    public void setCustomerName(String customerInfo) {
+        this.customerName = customerInfo;
     }
 
     public String getContactInfo() {
