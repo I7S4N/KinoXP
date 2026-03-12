@@ -40,7 +40,6 @@ public class MovieServiceImpl implements MovieService {
         );
     }
 
-
     @Override
     public MovieResponseDTO createMovie(CreateMovieRequestDTO req) {
 
@@ -137,5 +136,38 @@ public class MovieServiceImpl implements MovieService {
                 .map(this::mapToDTO)
                 .toList();
     }
+    @Override
+    public MovieResponseDTO updateMovie(Long id, CreateMovieRequestDTO req) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie with ID " + id + " was not found"));
 
+        if (req.title() == null || req.title().isBlank()) {
+            throw new InvalidRequestException("Title cannot be empty");
+        }
+        if (req.durationMin() <= 0) {
+            throw new InvalidRequestException("Duration must be greater than 0");
+        }
+        if (req.year() < 1800 || req.year() > 2100) {
+            throw new InvalidRequestException("Year is invalid");
+        }
+
+        movie.setTitle(req.title());
+        movie.setMovieYear(req.year());
+        movie.setCategory(req.category());
+        movie.setDurationMin(req.durationMin());
+        movie.setAgeLimit(req.ageLimit());
+        movie.setIs3d(req.is3d());
+
+        return mapToDTO(movieRepository.save(movie));
+    }
+
+    @Override
+    public void deleteMovie(Long id) {
+        if (!movieRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Movie with ID " + id + " was not found");
+        }
+        movieRepository.deleteById(id);
+    }
 }
+
+
