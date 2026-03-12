@@ -35,7 +35,7 @@ public class ReservationServiceImpl implements ReservationService {
         this.reservationRepository = reservationRepository;
 
 
-        //Returnerer hvilke sæder der allerede er reserveret til en showing
+        // Returnerer hvilke sæder der allerede er reserveret til en showing
 
 
     }

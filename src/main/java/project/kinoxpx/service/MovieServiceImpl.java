@@ -52,7 +52,7 @@ public class MovieServiceImpl implements MovieService {
             throw new InvalidRequestException("Duration must be greater than 0");
         }
 
-        if (req.year() < 1800 || req.year() > 2100) {
+        if (req.movieYear() < 1800 || req.movieYear() > 2100) {
             throw new InvalidRequestException("Year is invalid");
         }
 
@@ -102,10 +102,10 @@ public class MovieServiceImpl implements MovieService {
         movie.setCategory(omdbMovie.genre);
 
         // Rated (ageLimit) fra OMDB
-        movie.setRated(Integer.parseInt(omdbMovie.rated));
+        movie.setRated(omdbMovie.rated);
 
         // Standard værdier
-        movie.setRated(req.ageLimit());
+        movie.setRated(omdbMovie.rated);
         movie.setIs3d(req.is3d());
 
 
@@ -138,6 +138,7 @@ public class MovieServiceImpl implements MovieService {
                 .map(this::mapToDTO)
                 .toList();
     }
+
     @Override
     public MovieResponseDTO updateMovie(Long id, CreateMovieRequestDTO req) {
         Movie movie = movieRepository.findById(id)
@@ -149,15 +150,15 @@ public class MovieServiceImpl implements MovieService {
         if (req.durationMin() <= 0) {
             throw new InvalidRequestException("Duration must be greater than 0");
         }
-        if (req.year() < 1800 || req.year() > 2100) {
+        if (req.movieYear() < 1800 || req.movieYear() > 2100) {
             throw new InvalidRequestException("Year is invalid");
         }
 
         movie.setTitle(req.title());
-        movie.setMovieYear(req.year());
+        movie.setMovieYear(req.movieYear());
         movie.setCategory(req.category());
         movie.setDurationMin(req.durationMin());
-        movie.setRated(req.ageLimit());
+        movie.setRated(req.rated());
         movie.setIs3d(req.is3d());
 
         return mapToDTO(movieRepository.save(movie));
