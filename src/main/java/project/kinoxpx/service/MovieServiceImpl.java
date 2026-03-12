@@ -17,7 +17,6 @@ import java.util.Optional;
 public class MovieServiceImpl implements MovieService {
 
     private final OmdbService omdbService;
-
     private final MovieRepository movieRepository;
 
     //Constructøren injection af movieRepository
@@ -44,12 +43,6 @@ public class MovieServiceImpl implements MovieService {
             throw new InvalidRequestException("Title cannot be empty");
         }
 
-        // TODO: tilføj exceptions
-
-        // TODO: #1 hvis år ikke matcher med api'en
-
-        // TODO: #2 hvis titlen ikke findes
-
         // ---------- Check om filmen allerede findes i databasen
         Optional<Movie> existingMovie = movieRepository.findByTitleIgnoreCase(req.title());
 
@@ -57,7 +50,6 @@ public class MovieServiceImpl implements MovieService {
             // Hvis filmen allerede findes returnerer vi den eksisterende
             return mapToDTO(existingMovie.get());
         }
-
 
 
         // Henter vi film fra OMDB API
@@ -68,10 +60,6 @@ public class MovieServiceImpl implements MovieService {
         }
 
 
-
-
-
-
         // Mapper data fra CreateMovieRequest (DTO fra klienten) til Movie entity
         Movie movie = new Movie();
 
@@ -79,30 +67,22 @@ public class MovieServiceImpl implements MovieService {
         // Titel fra OMDB
         movie.setTitle(omdbMovie.title);
 
-
-        // OMDB year er String til parse til int
-        movie.setMovieYear(Integer.parseInt(omdbMovie.year));
-
+        // OMDB year er String til parse til int, lavet i metode
+        movie.setMovieYear(parseYear(omdbMovie.year));
 
         // Runtime fx "148 min"
-        String runtime = omdbMovie.runtime.replace(" min","");
-        movie.setDurationMin(Integer.parseInt(runtime));
-
+        movie.setDurationMin(parseRuntime(omdbMovie.runtime));
 
         // Genre fra OMDB
         movie.setCategory(omdbMovie.genre);
 
-        // Rated (ageLimit) fra OMDB
-        movie.setRated(omdbMovie.rated);
-
         // Standard værdier
-        movie.setRated(omdbMovie.rated);
+        movie.setRated(omdbMovie.rated); // agelimit "PG-xx"
         movie.setIs3d(req.is3d());
 
 
         //Gemmer Movie entity i databasen viaMovieRepository
         movie = movieRepository.save(movie);
-
 
 
         //Mapper den gemte Movie Entity til movieResponse DTO
@@ -112,6 +92,30 @@ public class MovieServiceImpl implements MovieService {
                 movie.getTitle(),
                 movie.isIs3d()
         );
+    }
+
+    private int parseYear(String year) {
+        try {
+            String cleaned = year.replaceAll("[^0-9]", "");
+            if (cleaned.length() < 4) {
+                throw new InvalidRequestException("Invalid year format from OMDB");
+            }
+            return Integer.parseInt(cleaned.substring(0, 4));
+        } catch (Exception e) {
+            throw new InvalidRequestException("Invalid year format from OMDB");
+        }
+    }
+
+    private int parseRuntime(String runtime) {
+        try {
+            String cleaned = runtime.replaceAll("[^0-9]", "");
+            if (cleaned.isBlank()) {
+                throw new InvalidRequestException("Invalid runtime format from OMDB");
+            }
+            return Integer.parseInt(cleaned);
+        } catch (Exception e) {
+            throw new InvalidRequestException("Invalid runtime format from OMDB");
+        }
     }
 
     @Override
@@ -146,6 +150,7 @@ public class MovieServiceImpl implements MovieService {
         if (!movieRepository.existsById(id)) {
             throw new ResourceNotFoundException("Movie with ID " + id + " was not found");
         }
+
         movieRepository.deleteById(id);
     }
 }
