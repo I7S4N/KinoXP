@@ -4,49 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservation</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Reserver billetter - KinoXPx</title>
 </head>
 
 <body>
 
-    <h1>Reserver Biografbillet</h1>
+    <header>
+        <h1>🎬 KinoXPx</h1>
+        <a href="index.html">← Tilbage til visninger</a>
+    </header>
 
-    <section>
-        <h2>Vælg sæder</h2>
-        <p id="showing-title">Henter visning...</p>
+    <main>
+        <h2 id="showing-title">Henter visning...</h2>
+
         <p>LÆRRED</p>
+
         <div id="seat-map"></div>
+
+        <p>
+            Ledig = grå |
+            Valgt = markeret |
+            Optaget = deaktiveret
+        </p>
+
+        <section>
+            <h3>Dine oplysninger</h3>
+            <div>
+                <label>Navn</label>
+                <input type="text" id="customerName" placeholder="Dit fulde navn" />
+            </div>
+            <div>
+                <label>Email / Telefon</label>
+                <input type="text" id="contactInfo" placeholder="email@eksempel.dk eller tlf." />
+            </div>
+        </section>
+
         <p>
             Valgte sæder: <span id="selected-count">0</span> —
             Pris: <span id="total-price">0</span> kr.
         </p>
-    </section>
 
-    <section>
-        <h2>Dine oplysninger</h2>
+        <button id="submit-btn" onclick="submitReservation()" disabled>
+            Bekræft reservation
+        </button>
 
-        <label>Navn</label>
-        <input id="customerName" placeholder="Indtast navn">
+        <p id="error-msg"></p>
 
-        <label>Email</label>
-        <input id="customerEmail" placeholder="Indtast email">
-
-        <label>Telefon</label>
-        <input id="customerPhone" placeholder="Indtast telefonnummer">
-
-        <button id="submit-btn" onclick="submitReservation()" disabled>Reserver billet</button>
-
-        <p id="message"></p>
-    </section>
-
-    <section id="confirmation" style="display:none;">
-        <h2>✅ Reservation bekræftet!</h2>
-        <p id="confirm-name"></p>
-        <p id="confirm-seats"></p>
-        <p id="confirm-total"></p>
-        <a href="index.html">← Tilbage til forsiden</a>
-    </section>
+        <div id="confirmation" style="display:none;">
+            <h2>✅ Reservation bekræftet!</h2>
+            <p id="confirm-name"></p>
+            <p id="confirm-seats"></p>
+            <p id="confirm-total"></p>
+            <a href="index.html">← Tilbage til forsiden</a>
+        </div>
+    </main>
 
     <script>
         const API_BASE = "http://localhost:8090";
@@ -59,9 +70,6 @@
         let totalRows = 0;
         let seatsPerRow = 0;
 
-        // ────────────────────────────────
-        // loadSeatMap
-        // ────────────────────────────────
         async function loadSeatMap(showingId) {
             try {
                 const res = await fetch(`${API_BASE}/api/showings/${showingId}/seats`);
@@ -113,9 +121,6 @@
             }
         }
 
-        // ────────────────────────────────
-        // toggleSeat
-        // ────────────────────────────────
         function toggleSeat(row, seat, btn) {
             const key = `${row}-${seat}`;
             const idx = selectedSeats.findIndex(s => s.key === key);
@@ -138,26 +143,21 @@
             document.getElementById("submit-btn").disabled = count === 0;
         }
 
-        // ────────────────────────────────
-        // submitReservation
-        // ────────────────────────────────
         async function submitReservation() {
             const customerName = document.getElementById("customerName").value.trim();
-            const customerEmail = document.getElementById("customerEmail").value.trim();
-            const customerPhone = document.getElementById("customerPhone").value.trim();
-            const message = document.getElementById("message");
+            const contactInfo = document.getElementById("contactInfo").value.trim();
+            const errorMsg = document.getElementById("error-msg");
 
-            message.textContent = "";
+            errorMsg.textContent = "";
 
-            if (!customerName) { message.textContent = "Indtast venligst dit navn."; return; }
-            if (!customerEmail) { message.textContent = "Indtast venligst din email."; return; }
-            if (!customerPhone) { message.textContent = "Indtast venligst dit telefonnummer."; return; }
-            if (selectedSeats.length === 0) { message.textContent = "Vælg mindst ét sæde."; return; }
+            if (!customerName) { errorMsg.textContent = "Indtast venligst dit navn."; return; }
+            if (!contactInfo) { errorMsg.textContent = "Indtast venligst email eller telefon."; return; }
+            if (selectedSeats.length === 0) { errorMsg.textContent = "Vælg mindst ét sæde."; return; }
 
             const body = {
                 showingId: parseInt(showingId),
                 customerInfo: customerName,
-                contactInfo: customerEmail + " / " + customerPhone,
+                contactInfo: contactInfo,
                 seats: selectedSeats.map(s => ({
                     seatRowNumber: s.seatRowNumber,
                     seatNumber: s.seatNumber
@@ -172,7 +172,7 @@
                 });
 
                 if (!res.ok) {
-                    message.textContent = await res.text();
+                    errorMsg.textContent = await res.text();
                     return;
                 }
 
@@ -180,13 +180,14 @@
                 showConfirmation(data, customerName);
 
             } catch (err) {
-                message.textContent = "Noget gik galt. Prøv igen.";
+                errorMsg.textContent = "Noget gik galt. Prøv igen.";
             }
         }
 
         function showConfirmation(data, customerName) {
             document.getElementById("submit-btn").style.display = "none";
-            document.getElementById("confirmation").style.display = "block";
+            const conf = document.getElementById("confirmation");
+            conf.style.display = "block";
             document.getElementById("confirm-name").textContent = `Navn: ${customerName}`;
             document.getElementById("confirm-seats").textContent =
                 `Sæder: ${selectedSeats.map(s => `Række ${s.seatRowNumber}, Sæde ${s.seatNumber}`).join(" | ")}`;
