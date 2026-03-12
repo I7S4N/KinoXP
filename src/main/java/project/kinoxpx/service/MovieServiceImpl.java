@@ -34,7 +34,7 @@ public class MovieServiceImpl implements MovieService {
                 movie.getTitle(),
                 movie.getMovieYear(),
                 movie.getDurationMin(),
-                movie.getAgeLimit(),
+                movie.getRated(),
                 movie.getCategory(),
                 movie.isIs3d()
         );
@@ -101,9 +101,11 @@ public class MovieServiceImpl implements MovieService {
         // Genre fra OMDB
         movie.setCategory(omdbMovie.genre);
 
+        // Rated (ageLimit) fra OMDB
+        movie.setRated(Integer.parseInt(omdbMovie.rated));
 
         // Standard værdier
-        movie.setAgeLimit(req.ageLimit());
+        movie.setRated(req.ageLimit());
         movie.setIs3d(req.is3d());
 
 
@@ -119,7 +121,7 @@ public class MovieServiceImpl implements MovieService {
                 movie.getTitle(),
                 movie.getMovieYear(),
                 movie.getDurationMin(),
-                movie.getAgeLimit(),
+                movie.getRated(),
                 movie.getCategory(),
                 movie.isIs3d()
         );
@@ -155,7 +157,7 @@ public class MovieServiceImpl implements MovieService {
         movie.setMovieYear(req.year());
         movie.setCategory(req.category());
         movie.setDurationMin(req.durationMin());
-        movie.setAgeLimit(req.ageLimit());
+        movie.setRated(req.ageLimit());
         movie.setIs3d(req.is3d());
 
         return mapToDTO(movieRepository.save(movie));
