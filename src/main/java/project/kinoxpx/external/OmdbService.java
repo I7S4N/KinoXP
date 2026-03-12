@@ -22,7 +22,7 @@ public class OmdbService {
 
 
             // her bygger vi URL til OMBd API
-            // Vi starter med base URL, derefter tilføjes API næglen
+            // Vi starter med base URL, derefter tilføjes API nøglen
             // Dernæst tilføjes søgeparameter
             String url = "http://www.omdbapi.com/?apikey="
                     + API_KEY
