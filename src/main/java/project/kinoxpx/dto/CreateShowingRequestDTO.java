@@ -4,6 +4,6 @@ import java.time.LocalDateTime;
 
 public record CreateShowingRequestDTO(
         Long movieId,
-        Long theaterId,
-        LocalDateTime startTime) {
+        LocalDateTime startTime,
+        Long theaterId) {
 }

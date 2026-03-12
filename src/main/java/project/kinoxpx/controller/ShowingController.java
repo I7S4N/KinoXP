@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.kinoxpx.dto.CreateShowingRequestDTO;
+import project.kinoxpx.dto.CreateTheaterRequestDTO;
 import project.kinoxpx.dto.ShowingResponseDTO;
+import project.kinoxpx.dto.TheaterResponseDTO;
 import project.kinoxpx.service.ShowingService;
 
 import java.net.URI;
@@ -30,9 +32,15 @@ public class ShowingController {
         return ResponseEntity.created(URI.create("/api/users/" + newShowing.id())).body(newShowing);
     }
 
-    // TODO: update showing
+    @PutMapping
+    public ResponseEntity<ShowingResponseDTO> updateShowing(@PathVariable Long id, @RequestBody CreateShowingRequestDTO req) {
+        return ResponseEntity.ok(showingService.updateShowing(id, req));
+    }
 
-    // TODO: delete showing
-
+    @DeleteMapping
+    public ResponseEntity<Void> deleteShowing(@PathVariable Long id) {
+        showingService.deleteShowing(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

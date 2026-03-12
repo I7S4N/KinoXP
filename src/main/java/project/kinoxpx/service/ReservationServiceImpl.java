@@ -41,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public SeatStatusResponseDTO getSeatStatusReponse(Long showingId){
+    public SeatStatusResponseDTO getSeatStatusResponse(Long showingId){
 
 
         // ---------- 1. Find showing ----------
