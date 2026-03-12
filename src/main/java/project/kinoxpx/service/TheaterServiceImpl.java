@@ -65,6 +65,7 @@ public class TheaterServiceImpl implements TheaterService {
                 .map(this::mapToDTO)
                 .toList();
     }
+
     @Override
     public TheaterResponseDTO updateTheater(Long id, CreateTheaterRequestDTO req) {
         Theater theater = theaterRepository.findById(id)

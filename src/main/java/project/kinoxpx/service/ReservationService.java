@@ -6,7 +6,7 @@ import project.kinoxpx.dto.SeatStatusResponseDTO;
 
 public interface ReservationService {
 
-    SeatStatusResponseDTO getSeatStatusReponse(Long showingId);
+    SeatStatusResponseDTO getSeatStatusResponse(Long showingId);
 
     ReservationResponseDTO createReservation(ReservationRequestDTO req);
 }

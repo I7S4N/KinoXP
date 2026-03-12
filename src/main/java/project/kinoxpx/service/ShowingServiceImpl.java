@@ -1,8 +1,8 @@
 package project.kinoxpx.service;
 
 import org.springframework.stereotype.Service;
-import project.kinoxpx.dto.CreateShowingRequestDTO;
-import project.kinoxpx.dto.ShowingResponseDTO;
+import project.kinoxpx.dto.*;
+import project.kinoxpx.exception.InvalidRequestException;
 import project.kinoxpx.exception.ResourceNotFoundException;
 import project.kinoxpx.model.Movie;
 import project.kinoxpx.model.Showing;
@@ -12,6 +12,7 @@ import project.kinoxpx.repository.ShowingRepository;
 import project.kinoxpx.repository.TheaterRepository;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -26,6 +27,16 @@ public class ShowingServiceImpl implements ShowingService {
         this.showingRepository = showingRepository;
         this.movieRepository = movieRepository;
         this.theaterRepository = theaterRepository;
+    }
+
+    // Mapper Movie entity til ShowingResponseDTO
+    private ShowingResponseDTO mapToDTO(Showing showing) {
+        return new ShowingResponseDTO(
+                showing.getId(),
+                showing.getMovie().getTitle(),
+                showing.getStartTime(),
+                showing.getTheater().getType().getDisplayName()
+        );
     }
 
     @Override
@@ -81,5 +92,51 @@ public class ShowingServiceImpl implements ShowingService {
                         showing.getTheater().getType().getDisplayName()
                 ))
                 .toList();
+    }
+
+    @Override
+    public ShowingResponseDTO updateShowing(Long id, CreateShowingRequestDTO req) {
+        Showing showing = showingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Showing with ID " + id + " was not found"));
+
+
+
+        if (req.movieId() <= 0) {
+            throw new InvalidRequestException("Could not find showing");
+        }
+
+        LocalDateTime start = req.startTime();
+
+//      må ikke være i fortiden
+        if (start.isBefore(LocalDateTime.now())) {
+            throw new InvalidRequestException("Showing cannot be in the past");
+        }
+
+//      må kun starte mellem 10 og 22
+        LocalTime time = start.toLocalTime();
+
+        if (time.isBefore(LocalTime.of(10,0)) || time.isAfter(LocalTime.of(22,0))) {
+            throw new InvalidRequestException("Showings must start between 10:00 and 22:00");
+        }
+
+        Movie movie = movieRepository.findById(req.movieId())
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found"));
+
+        Theater theater = theaterRepository.findById(req.theaterId())
+                .orElseThrow(() -> new ResourceNotFoundException("Theater not found"));
+
+        showing.setMovie(movie);
+        showing.setStartTime(req.startTime());
+        showing.setTheater(theater);
+
+        return mapToDTO(showingRepository.save(showing));
+    }
+
+    @Override
+    public void deleteShowing(Long id) {
+        if (!showingRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Showing with ID " + id + " was not found");
+        }
+        showingRepository.deleteById(id);
     }
 }

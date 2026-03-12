@@ -33,6 +33,7 @@ public class TheaterController {
         List<TheaterResponseDTO> theaters = theaterService.getAllTheaters();
         return ResponseEntity.ok(theaters);
     }
+
     @PutMapping
     public ResponseEntity<TheaterResponseDTO> updateTheater(@PathVariable Long id, @RequestBody CreateTheaterRequestDTO req) {
         return ResponseEntity.ok(theaterService.updateTheater(id, req));

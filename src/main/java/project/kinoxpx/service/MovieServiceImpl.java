@@ -32,10 +32,6 @@ public class MovieServiceImpl implements MovieService {
         return new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
-                movie.getMovieYear(),
-                movie.getDurationMin(),
-                movie.getRated(),
-                movie.getCategory(),
                 movie.isIs3d()
         );
     }
@@ -48,16 +44,11 @@ public class MovieServiceImpl implements MovieService {
             throw new InvalidRequestException("Title cannot be empty");
         }
 
-        if (req.durationMin() <= 0) {
-            throw new InvalidRequestException("Duration must be greater than 0");
-        }
+        // TODO: tilføj exceptions
 
-        if (req.year() < 1800 || req.year() > 2100) {
-            throw new InvalidRequestException("Year is invalid");
-        }
+        // TODO: #1 hvis år ikke matcher med api'en
 
-
-
+        // TODO: #2 hvis titlen ikke findes
 
         // ---------- Check om filmen allerede findes i databasen
         Optional<Movie> existingMovie = movieRepository.findByTitleIgnoreCase(req.title());
@@ -102,10 +93,10 @@ public class MovieServiceImpl implements MovieService {
         movie.setCategory(omdbMovie.genre);
 
         // Rated (ageLimit) fra OMDB
-        movie.setRated(Integer.parseInt(omdbMovie.rated));
+        movie.setRated(omdbMovie.rated);
 
         // Standard værdier
-        movie.setRated(req.ageLimit());
+        movie.setRated(omdbMovie.rated);
         movie.setIs3d(req.is3d());
 
 
@@ -119,10 +110,6 @@ public class MovieServiceImpl implements MovieService {
         return new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
-                movie.getMovieYear(),
-                movie.getDurationMin(),
-                movie.getRated(),
-                movie.getCategory(),
                 movie.isIs3d()
         );
     }
@@ -138,6 +125,7 @@ public class MovieServiceImpl implements MovieService {
                 .map(this::mapToDTO)
                 .toList();
     }
+
     @Override
     public MovieResponseDTO updateMovie(Long id, CreateMovieRequestDTO req) {
         Movie movie = movieRepository.findById(id)
@@ -146,18 +134,8 @@ public class MovieServiceImpl implements MovieService {
         if (req.title() == null || req.title().isBlank()) {
             throw new InvalidRequestException("Title cannot be empty");
         }
-        if (req.durationMin() <= 0) {
-            throw new InvalidRequestException("Duration must be greater than 0");
-        }
-        if (req.year() < 1800 || req.year() > 2100) {
-            throw new InvalidRequestException("Year is invalid");
-        }
 
         movie.setTitle(req.title());
-        movie.setMovieYear(req.year());
-        movie.setCategory(req.category());
-        movie.setDurationMin(req.durationMin());
-        movie.setRated(req.ageLimit());
         movie.setIs3d(req.is3d());
 
         return mapToDTO(movieRepository.save(movie));
