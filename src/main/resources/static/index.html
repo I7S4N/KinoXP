@@ -20,7 +20,8 @@
     </main>
 
     <script>
-        const API_BASE = "http://localhost:8090";
+        // når docker er deployet, så ændrer tilbage itl 8090
+        const API_BASE = "http://localhost:8080";
 
         async function loadShowings() {
             const grid = document.getElementById("showings-grid");

@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("api/theaters")
 public class TheaterController {
 
-
     private final TheaterService theaterService;
 
     public TheaterController(TheaterService theaterService) {

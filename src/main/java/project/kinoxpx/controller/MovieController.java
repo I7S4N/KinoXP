@@ -28,6 +28,7 @@ public class MovieController {
         MovieResponseDTO response = movieService.createMovie(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
     @PutMapping
     public ResponseEntity<MovieResponseDTO> updateMovie(@PathVariable Long id, @RequestBody CreateMovieRequestDTO req) {
         return ResponseEntity.ok(movieService.updateMovie(id, req));
