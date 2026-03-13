@@ -120,8 +120,6 @@ public class ShowingServiceImpl implements ShowingService {
         Showing showing = showingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Showing with ID " + id + " was not found"));
 
-
-
         if (req.movieId() <= 0) {
             throw new InvalidRequestException("Could not find showing");
         }

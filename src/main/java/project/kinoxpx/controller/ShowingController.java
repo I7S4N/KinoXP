@@ -38,12 +38,12 @@ public class ShowingController {
         return ResponseEntity.created(URI.create("/api/users/" + newShowing.id())).body(newShowing);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<ShowingResponseDTO> updateShowing(@PathVariable Long id, @RequestBody CreateShowingRequestDTO req) {
         return ResponseEntity.ok(showingService.updateShowing(id, req));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteShowing(@PathVariable Long id) {
         showingService.deleteShowing(id);
         return ResponseEntity.noContent().build();
