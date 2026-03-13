@@ -1,51 +1,44 @@
 <!DOCTYPE html>
 <html lang="da">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Showings</title>
     <link rel="stylesheet" href="style.css">
-
-
 </head>
-
 <body>
-
+<header>
     <h1>Admin - Showings</h1>
+    <nav>
+        <a href="admin-movies.html">Film</a>
+        <a href="index.html">Tilbage til Program Liste</a>
+        <button id="logoutBtn">Log ud</button>
+    </nav>
+</header>
 
-    <section>
-        <h2>Opret Film</h2>
+<section>
+    <h2>Opret Film</h2>
+    <input id="movieTitle" placeholder="Film titel">
+    <button onclick="createMovie()">Opret Film</button>
+</section>
 
-        <input id="movieTitle" placeholder="Film titel">
+<section>
+    <h2>Opret Showing</h2>
+    <label>Film</label>
+    <select id="movieDropdown"></select>
+    <label>Biograf / Sal</label>
+    <select id="theaterDropdown"></select>
+    <label>Tid</label>
+    <input id="showingTime" type="time">
+    <button onclick="createShowing()">Opret Showing</button>
+</section>
 
-        <button onclick="createMovie()">Opret Film</button>
+<section>
+    <h2>Showings Liste</h2>
+    <ul id="showingsList"></ul>
+</section>
 
-    </section>
-
-    <section>
-        <h2>Opret Showing</h2>
-
-        <label>Film</label>
-        <select id="movieDropdown"></select>
-
-        <label>Biograf / Sal</label>
-        <select id="theaterDropdown"></select>
-
-        <label>Tid</label>
-        <input id="showingTime" type="time">
-
-        <button onclick="createShowing()">Opret Showing</button>
-
-    </section>
-
-    <section>
-        <h2>Showings Liste</h2>
-
-        <ul id="showingsList"></ul>
-
-    </section>
-
+    <script src="admin-auth.js"></script>
     <script src = showings.js></script>
 
 </body>
