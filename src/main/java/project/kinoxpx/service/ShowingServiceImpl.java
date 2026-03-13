@@ -11,6 +11,7 @@ import project.kinoxpx.repository.MovieRepository;
 import project.kinoxpx.repository.ShowingRepository;
 import project.kinoxpx.repository.TheaterRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -77,14 +78,34 @@ public class ShowingServiceImpl implements ShowingService {
     }
 
     @Override
+    public List<ShowingResponseDTO> getTodayShowings() {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(23, 59, 59);
+
+        return showingRepository
+                .findByStartTimeBetweenOrderByStartTimeAsc(startOfDay, endOfDay)
+                .stream()
+                .map(showing -> new ShowingResponseDTO(
+                        showing.getId(),
+                        showing.getMovie().getTitle(),
+                        showing.getStartTime(),
+                        showing.getTheater().getType().getDisplayName()
+                ))
+                .toList();
+    }
+
+    @Override
     public List<ShowingResponseDTO> getUpcomingShowings() {
 
         // Finder alle showings der starter efter nuværende tidspunkt
         // Resultatet sorteres automatisk efter startTime
 
-        return showingRepository.findByStartTimeAfterOrderByStartTimeAsc(LocalDateTime.now()).stream()
-
-
+        return showingRepository
+                .findByStartTimeAfterOrderByStartTimeAsc(LocalDateTime.now())
+                .stream()
                 .map(showing -> new ShowingResponseDTO(
                         showing.getId(),
                         showing.getMovie().getTitle(),

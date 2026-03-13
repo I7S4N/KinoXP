@@ -15,14 +15,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/showings")
 public class ShowingController {
+
     private final ShowingService showingService;
 
     public ShowingController(ShowingService showingService) {
         this.showingService = showingService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<ShowingResponseDTO>> getAllShowings () {
+    @GetMapping("/today")
+    public ResponseEntity<List<ShowingResponseDTO>> getTodayShowings() {
+        return ResponseEntity.ok(showingService.getTodayShowings());
+    }
+
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<ShowingResponseDTO>> getUpComingShowings() {
         return ResponseEntity.ok(showingService.getUpcomingShowings());
     }
 
