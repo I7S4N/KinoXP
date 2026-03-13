@@ -14,6 +14,7 @@ async function loadTodayShowings() {
         if (!res.ok) throw new Error("Kunne ikke hente dagens visninger");
 
         const showings = await res.json();
+        console.log(showings);
 
         if (showings.length === 0) {
             grid.innerHTML = `<p>Ingen visninger i dag</p>`;
