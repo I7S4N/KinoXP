@@ -6,5 +6,5 @@ public record ReservationRequestDTO(
         Long showingId,
         String customerName,
         String contactInfo,
-        List<SeatDTO> seats) {
-}
+        List<SeatDTO> seats
+) {}

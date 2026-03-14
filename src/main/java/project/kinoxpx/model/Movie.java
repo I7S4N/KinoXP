@@ -14,10 +14,10 @@ public class Movie {
     private String title;
 
     @Column(length = 4)
-    private int movieYear;
+    private Integer movieYear;
 
     @Column(nullable = false)
-    private int durationMin;
+    private Integer durationMin;
 
     private String rated;
 
@@ -27,7 +27,7 @@ public class Movie {
     @Column(nullable = false)
     private boolean is3d;
 
-    public Movie(Long id, String title, int movieYear, int durationMin, String rated, String category, boolean is3d) {
+    public Movie(Long id, String title, Integer movieYear, Integer durationMin, String rated, String category, boolean is3d) {
         this.id = id;
         this.title = title;
         this.movieYear = movieYear;
@@ -56,19 +56,19 @@ public class Movie {
         this.title = title;
     }
 
-    public int getMovieYear() {
+    public Integer getMovieYear() {
         return movieYear;
     }
 
-    public void setMovieYear(int year) {
+    public void setMovieYear(Integer year) {
         this.movieYear = year;
     }
 
-    public int getDurationMin() {
+    public Integer getDurationMin() {
         return durationMin;
     }
 
-    public void setDurationMin(int durationMin) {
+    public void setDurationMin(Integer durationMin) {
         this.durationMin = durationMin;
     }
 
@@ -88,7 +88,7 @@ public class Movie {
         this.category = category;
     }
 
-    public boolean isIs3d() {
+    public boolean getIs3d() {
         return is3d;
     }
 

@@ -23,6 +23,11 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<MovieResponseDTO> getMovieById(@PathVariable Long id) {
+        return ResponseEntity.ok(movieService.getMovieById(id));
+    }
+
     @PostMapping
     public ResponseEntity<MovieResponseDTO> createMovie(@RequestBody CreateMovieRequestDTO req) {
         MovieResponseDTO response = movieService.createMovie(req);

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record ShowingResponseDTO(
         Long id,
-        String movieTitle,
+        String title,
         LocalDateTime startTime,
-        String theaterType) {
-}
+        String theaterType
+) {}

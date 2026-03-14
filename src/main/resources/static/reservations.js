@@ -19,7 +19,7 @@ async function loadSeatMap(showingId) {
         const data = await res.json();
 
         document.getElementById("showing-title")
-            .textContent = `${data.movieTitle} — ${formatDateTime(data.startTime)}`;
+            .textContent = `${data.title} — ${formatDateTime(data.startTime)}`;
 
         totalRows = data.numberOfRows;
         seatsPerRow = data.seatsPerRow;

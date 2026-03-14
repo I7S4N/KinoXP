@@ -1,5 +1,5 @@
 
-const API_BASE = "http://localhost:8090";
+const API_BASE = "http://localhost:8080";
 
 
 
@@ -51,8 +51,8 @@ async function loadShowings() {
 
         grid.innerHTML = showings.map(showing => {
 
-            const title = showing.movieTitle ?? "Ukendt film";
-            const theater = showing.theaterType ?? "Ukendt sal";
+            const title = showing.title ?? "Ukendt film";
+            const theater = showing.type ?? "Ukendt sal";
 
             return `
                 <div class="showing-card">
