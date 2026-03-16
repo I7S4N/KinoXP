@@ -85,7 +85,7 @@ async function loadMovies() {
 }
 
 function showMovieDetails(movieId) {
-    window.location.href = `movie-details.html?id=${movieId}`;
+    window.location.href = `/movie-details.html?id=${movieId}`;
 }
 
 loadMovies();

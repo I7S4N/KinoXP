@@ -20,37 +20,30 @@ async function loadMovieDetails() {
 
         const movie = await res.json();
 
-        // document.getElementById("movie-title").textContent = movie.title;
-        // document.getElementById("movie-year").textContent = movie.year ?? "Ukendt";
-        // document.getElementById("movie-duration").textContent = movie.durationMin ? `${movie.durationMin} min` : "Ukendt";
-        // document.getElementById("movie-rated").textContent = movie.rated ?? "Ukendt";
-        // document.getElementById("movie-category").textContent = movie.category ?? "Ukendt";
-        // document.getElementById("movie-is3d").textContent = movie.is3d ? "Ja" : "Nej";
+        document.getElementById("movie-title").textContent = movie.title ?? "Ukendt titel";
 
-        document.getElementById("movie-title").textContent = movie.title;
-
-        if (movie.year != null) {
+        if (movie.movieYear != null) {
             document.getElementById("movie-year").textContent = movie.movieYear;
         } else {
-            document.getElementById("movie-year").parentElement.style.display = "none";
+            document.getElementById("year-row").style.display = "none";
         }
 
         if (movie.durationMin != null) {
-            document.getElementById("movie-duration").textContent = movie.durationMin + " min";
+            document.getElementById("movie-duration").textContent = `${movie.durationMin} min`;
         } else {
-            document.getElementById("movie-duration").parentElement.style.display = "none";
+            document.getElementById("duration-row").style.display = "none";
         }
 
         if (movie.rated && movie.rated !== "N/A") {
             document.getElementById("movie-rated").textContent = movie.rated;
         } else {
-            document.getElementById("movie-rated").parentElement.style.display = "none";
+            document.getElementById("rated-row").style.display = "none";
         }
 
         if (movie.category && movie.category !== "N/A") {
             document.getElementById("movie-category").textContent = movie.category;
         } else {
-            document.getElementById("movie-category").parentElement.style.display = "none";
+            document.getElementById("category-row").style.display = "none";
         }
 
         document.getElementById("movie-is3d").textContent = movie.is3d ? "Ja" : "Nej";

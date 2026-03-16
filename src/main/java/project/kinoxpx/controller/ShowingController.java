@@ -32,10 +32,15 @@ public class ShowingController {
         return ResponseEntity.ok(showingService.getUpcomingShowings());
     }
 
+    @GetMapping
+    public ResponseEntity<List<ShowingResponseDTO>> getAllShowings() {
+        return ResponseEntity.ok(showingService.getAllShowings());
+    }
+
     @PostMapping
     public ResponseEntity<ShowingResponseDTO> createShowing(@Valid @RequestBody CreateShowingRequestDTO showingRequest) {
         ShowingResponseDTO newShowing = showingService.createShowing(showingRequest);
-        return ResponseEntity.created(URI.create("/api/users/" + newShowing.id())).body(newShowing);
+        return ResponseEntity.created(URI.create("/api/showings/" + newShowing.id())).body(newShowing);
     }
 
     @PutMapping("/{id}")

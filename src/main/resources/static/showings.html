@@ -1,51 +1,45 @@
 <!DOCTYPE html>
 <html lang="da">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Showings</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
-
 <body>
 
+<header>
     <h1>Admin - Showings</h1>
+    <nav>
+        <a href="/movies.html">Film</a>
+        <a href="/index.html">Tilbage til programliste</a>
+    </nav>
+</header>
 
-    <section>
-        <h2>Opret Film</h2>
-
-        <input id="movieTitle" placeholder="Film titel">
-
-        <button onclick="createMovie()">Opret Film</button>
-
-    </section>
-
+<main>
     <section>
         <h2>Opret Showing</h2>
 
-        <label>Film</label>
+        <label for="movieDropdown">Film</label>
         <select id="movieDropdown"></select>
 
-        <label>Biograf / Sal</label>
+        <label for="theaterDropdown">Biograf / Sal</label>
         <select id="theaterDropdown"></select>
 
-        <label>Tid</label>
-        <input id="showingTime" type="time">
+        <label for="showingTime">Tid</label>
+        <input id="showingTime" type="datetime-local">
 
         <button onclick="createShowing()">Opret Showing</button>
 
+        <p id="message"></p>
     </section>
 
     <section>
         <h2>Showings Liste</h2>
-
         <ul id="showingsList"></ul>
-
     </section>
+</main>
 
-    <script src = showings.js></script>
-
+<script src="/showings.js"></script>
 </body>
-
 </html>

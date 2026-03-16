@@ -78,6 +78,15 @@ public class ShowingServiceImpl implements ShowingService {
     }
 
     @Override
+    public List<ShowingResponseDTO> getAllShowings() {
+        return showingRepository.findAll()
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+
+    @Override
     public List<ShowingResponseDTO> getTodayShowings() {
 
         LocalDate today = LocalDate.now();

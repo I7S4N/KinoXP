@@ -154,3 +154,5 @@ if (showingId) {
 } else {
     document.getElementById("showing-title").textContent = "Ingen visning valgt";
 }
+
+showConfirmation();
