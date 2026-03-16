@@ -8,7 +8,7 @@ public class OmdbService {
 
         //Vores adgangsnøgle til OMDb API.
         //Den eksterne API som vi vælger at hente fra
-        private final String API_KEY = "YOUR_API_KEY";
+        private final String API_KEY = "b25ef649";
 
 
 

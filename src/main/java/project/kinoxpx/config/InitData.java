@@ -20,17 +20,15 @@ public class InitData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Movie m1 = new Movie(null, "Inception", 2010, 148, 13, "Sci-Fi", false);
-        Movie m2 = new Movie(null, "Avatar", 2009, 162, 13, "Adventure", true);
-        Movie m3 = new Movie(null, "The Lion King", 1994, 88, 7, "Animation", false);
-        Movie m4 = new Movie(null, "The Dark Knight", 2008, 152, 15, "Action", false);
-        Movie m5 = new Movie(null, "Frozen", 2013, 102, 7, "Animation", true);
-
-        movieRepository.saveAll(List.of(
-                m1, m2, m3, m4, m5
-        ));
-
-
+//        Movie m1 = new Movie(null, "Inception", 2010, 148, "PG-13", "Sci-Fi", false);
+//        Movie m2 = new Movie(null, "Avatar", 2009, 162, "PG-13", "Adventure", true);
+//        Movie m3 = new Movie(null, "The Lion King", 1994, 88, "PG-10", "Animation", false);
+//        Movie m4 = new Movie(null, "The Dark Knight", 2008, 152, "PG-12", "Action", false);
+//        Movie m5 = new Movie(null, "Frozen", 2013, 102, "PG-5", "Animation", true);
+//
+//        movieRepository.saveAll(List.of(
+//                m1, m2, m3, m4, m5
+//        ));
     }
 
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Film</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Admin - Film</h1>
+    <nav>
+        <a href="showings.html">Showings</a>
+        <a href="index.html">Tilbage til programliste</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Opret film</h2>
+
+    <input id="movieTitle" type="text" placeholder="Film titel">
+
+    <label>
+        3D-film
+        <input id="is3d" type="checkbox">
+    </label>
+
+    <button onclick="createMovie()">Opret film</button>
+
+    <p id="message"></p>
+
+    <h2>Filmliste</h2>
+    <ul id="movieList"></ul>
+</main>
+
+<script src = "movies.js">
+</script>
+</body>
+</html>

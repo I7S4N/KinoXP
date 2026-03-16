@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("api/theaters")
 public class TheaterController {
 
-
     private final TheaterService theaterService;
 
     public TheaterController(TheaterService theaterService) {
@@ -33,12 +32,13 @@ public class TheaterController {
         List<TheaterResponseDTO> theaters = theaterService.getAllTheaters();
         return ResponseEntity.ok(theaters);
     }
-    @PutMapping
+
+    @PutMapping("/{id}")
     public ResponseEntity<TheaterResponseDTO> updateTheater(@PathVariable Long id, @RequestBody CreateTheaterRequestDTO req) {
         return ResponseEntity.ok(theaterService.updateTheater(id, req));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTheater(@PathVariable Long id) {
         theaterService.deleteTheater(id);
         return ResponseEntity.noContent().build();

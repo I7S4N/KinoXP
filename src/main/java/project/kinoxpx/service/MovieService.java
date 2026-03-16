@@ -1,5 +1,6 @@
 package project.kinoxpx.service;
 
+import org.jspecify.annotations.Nullable;
 import project.kinoxpx.dto.CreateMovieRequestDTO;
 import project.kinoxpx.dto.MovieResponseDTO;
 
@@ -14,4 +15,5 @@ public interface MovieService {
     List<MovieResponseDTO> getAllMovies();
     MovieResponseDTO updateMovie(Long id, CreateMovieRequestDTO req);
     void deleteMovie(Long id);
+    MovieResponseDTO getMovieById(Long id);
 }

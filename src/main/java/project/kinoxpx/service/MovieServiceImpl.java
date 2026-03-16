@@ -17,7 +17,6 @@ import java.util.Optional;
 public class MovieServiceImpl implements MovieService {
 
     private final OmdbService omdbService;
-
     private final MovieRepository movieRepository;
 
     //Constructøren injection af movieRepository
@@ -36,8 +35,16 @@ public class MovieServiceImpl implements MovieService {
                 movie.getDurationMin(),
                 movie.getRated(),
                 movie.getCategory(),
-                movie.isIs3d()
+                movie.getIs3d()
         );
+    }
+
+    @Override
+    public MovieResponseDTO getMovieById(Long id) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie with ID: " + id + "was not found"));
+
+        return mapToDTO(movie);
     }
 
     @Override
@@ -48,17 +55,6 @@ public class MovieServiceImpl implements MovieService {
             throw new InvalidRequestException("Title cannot be empty");
         }
 
-        if (req.durationMin() <= 0) {
-            throw new InvalidRequestException("Duration must be greater than 0");
-        }
-
-        if (req.year() < 1800 || req.year() > 2100) {
-            throw new InvalidRequestException("Year is invalid");
-        }
-
-
-
-
         // ---------- Check om filmen allerede findes i databasen
         Optional<Movie> existingMovie = movieRepository.findByTitleIgnoreCase(req.title());
 
@@ -66,7 +62,6 @@ public class MovieServiceImpl implements MovieService {
             // Hvis filmen allerede findes returnerer vi den eksisterende
             return mapToDTO(existingMovie.get());
         }
-
 
 
         // Henter vi film fra OMDB API
@@ -77,10 +72,6 @@ public class MovieServiceImpl implements MovieService {
         }
 
 
-
-
-
-
         // Mapper data fra CreateMovieRequest (DTO fra klienten) til Movie entity
         Movie movie = new Movie();
 
@@ -88,24 +79,17 @@ public class MovieServiceImpl implements MovieService {
         // Titel fra OMDB
         movie.setTitle(omdbMovie.title);
 
-
-        // OMDB year er String til parse til int
-        movie.setMovieYear(Integer.parseInt(omdbMovie.year));
-
+        // OMDB year er String til parse til int, lavet i metode
+        movie.setMovieYear(parseYear(omdbMovie.year));
 
         // Runtime fx "148 min"
-        String runtime = omdbMovie.runtime.replace(" min","");
-        movie.setDurationMin(Integer.parseInt(runtime));
-
+        movie.setDurationMin(parseRuntime(omdbMovie.runtime));
 
         // Genre fra OMDB
         movie.setCategory(omdbMovie.genre);
 
-        // Rated (ageLimit) fra OMDB
-        movie.setRated(Integer.parseInt(omdbMovie.rated));
-
         // Standard værdier
-        movie.setRated(req.ageLimit());
+        movie.setRated(omdbMovie.rated); // agelimit "PG-xx"
         movie.setIs3d(req.is3d());
 
 
@@ -113,18 +97,47 @@ public class MovieServiceImpl implements MovieService {
         movie = movieRepository.save(movie);
 
 
-
         //Mapper den gemte Movie Entity til movieResponse DTO
         //DTO bruges til at sende data tilbage til klienten
-        return new MovieResponseDTO(
-                movie.getId(),
-                movie.getTitle(),
-                movie.getMovieYear(),
-                movie.getDurationMin(),
-                movie.getRated(),
-                movie.getCategory(),
-                movie.isIs3d()
-        );
+
+        // måske slette 104 - 112
+//        return new MovieResponseDTO(
+//                movie.getId(),
+//                movie.getTitle(),
+//                movie.getMovieYear(),
+//                movie.getDurationMin(),
+//                movie.getRated(),
+//                movie.getCategory(),
+//                movie.getIs3d()
+//        );
+
+        return mapToDTO(movie);
+    }
+
+    // fjerner alle mellemrum og ekstra tal udover de fire første cifre
+    private int parseYear(String year) {
+        try {
+            String cleaned = year.replaceAll("[^0-9]", "");
+            if (cleaned.length() < 4) {
+                throw new InvalidRequestException("Invalid year format");
+            }
+            return Integer.parseInt(cleaned.substring(0, 4));
+        } catch (Exception e) {
+            throw new InvalidRequestException("Invalid year format");
+        }
+    }
+
+    // sikrer ordenligt format, når admin indtaster varighed på film
+    private int parseRuntime(String runtime) {
+        try {
+            String cleaned = runtime.replaceAll("[^0-9]", "");
+            if (cleaned.isBlank()) {
+                throw new InvalidRequestException("Invalid runtime format");
+            }
+            return Integer.parseInt(cleaned);
+        } catch (Exception e) {
+            throw new InvalidRequestException("Invalid runtime format");
+        }
     }
 
     @Override
@@ -138,6 +151,7 @@ public class MovieServiceImpl implements MovieService {
                 .map(this::mapToDTO)
                 .toList();
     }
+
     @Override
     public MovieResponseDTO updateMovie(Long id, CreateMovieRequestDTO req) {
         Movie movie = movieRepository.findById(id)
@@ -146,18 +160,8 @@ public class MovieServiceImpl implements MovieService {
         if (req.title() == null || req.title().isBlank()) {
             throw new InvalidRequestException("Title cannot be empty");
         }
-        if (req.durationMin() <= 0) {
-            throw new InvalidRequestException("Duration must be greater than 0");
-        }
-        if (req.year() < 1800 || req.year() > 2100) {
-            throw new InvalidRequestException("Year is invalid");
-        }
 
         movie.setTitle(req.title());
-        movie.setMovieYear(req.year());
-        movie.setCategory(req.category());
-        movie.setDurationMin(req.durationMin());
-        movie.setRated(req.ageLimit());
         movie.setIs3d(req.is3d());
 
         return mapToDTO(movieRepository.save(movie));
@@ -168,6 +172,7 @@ public class MovieServiceImpl implements MovieService {
         if (!movieRepository.existsById(id)) {
             throw new ResourceNotFoundException("Movie with ID " + id + " was not found");
         }
+
         movieRepository.deleteById(id);
     }
 }
