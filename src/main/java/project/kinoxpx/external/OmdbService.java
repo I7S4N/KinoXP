@@ -10,12 +10,8 @@ public class OmdbService {
         //Den eksterne API som vi vælger at hente fra
         private final String API_KEY = "b25ef649";
 
-
-
         //Bruger vi til at sende HTTP forespørgelser til OMDb API
         private final RestTemplate restTemplate = new RestTemplate();
-
-
 
         //objektet her mapper JSON data
         public OmdbMovieDTO fetchMovieByTitle(String title){
@@ -24,7 +20,7 @@ public class OmdbService {
             // her bygger vi URL til OMBd API
             // Vi starter med base URL, derefter tilføjes API nøglen
             // Dernæst tilføjes søgeparameter
-            String url = "http://www.omdbapi.com/?apikey="
+            String url = "https://www.omdbapi.com/?apikey="
                     + API_KEY
                     + "&t="
                     + title;
