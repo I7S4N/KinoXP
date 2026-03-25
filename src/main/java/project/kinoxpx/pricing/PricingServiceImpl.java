@@ -7,7 +7,7 @@ import project.kinoxpx.showing.Showing;
 import java.util.List;
 
 @Service
-public class PricingServiceImpl implements PricingService {
+class PricingServiceImpl implements PricingService {
 
     private static final int BASE_PRICE = 95;
 

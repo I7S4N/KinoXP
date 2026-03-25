@@ -14,7 +14,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Service
-public class ShowingServiceImpl implements ShowingService {
+class ShowingServiceImpl implements ShowingService {
 
     private final ShowingRepository showingRepository;
     private final MovieRepository movieRepository;

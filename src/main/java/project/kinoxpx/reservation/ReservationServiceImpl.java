@@ -15,7 +15,7 @@ import project.kinoxpx.showing.ShowingRepository;
 import java.util.List;
 
 @Service
-public class ReservationServiceImpl implements ReservationService {
+class ReservationServiceImpl implements ReservationService {
 
     private final ShowingRepository showingRepository;
     private final ReservedSeatRepository reservedSeatRepository;

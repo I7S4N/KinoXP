@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MovieServiceImpl implements MovieService {
+class MovieServiceImpl implements MovieService {
 
     private final OmdbService omdbService;
     private final MovieRepository movieRepository;

@@ -7,7 +7,7 @@ import project.kinoxpx.exceptions.ResourceNotFoundException;
 import java.util.List;
 
 @Service
-public class TheaterServiceImpl implements TheaterService {
+class TheaterServiceImpl implements TheaterService {
 
     private final TheaterRepository theaterRepository;
 

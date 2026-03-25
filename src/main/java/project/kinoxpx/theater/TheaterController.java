@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/theaters")
-public class TheaterController {
+class TheaterController {
 
     private final TheaterService theaterService;
 
