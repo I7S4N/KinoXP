@@ -2,9 +2,9 @@ package project.kinoxpx.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import project.kinoxpx.dto.CreateTheaterRequestDTO;
-import project.kinoxpx.model.TheaterType;
-import project.kinoxpx.service.TheaterService;
+import project.kinoxpx.theater.CreateTheaterRequestDTO;
+import project.kinoxpx.theater.TheaterType;
+import project.kinoxpx.theater.TheaterService;
 
 @Component
 public class TheaterDataLoader implements CommandLineRunner {
