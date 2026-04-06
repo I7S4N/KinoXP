@@ -21,31 +21,10 @@ async function loadMovieDetails() {
         const movie = await res.json();
 
         document.getElementById("movie-title").textContent = movie.title ?? "Ukendt titel";
-
-        if (movie.movieYear != null) {
-            document.getElementById("movie-year").textContent = movie.movieYear;
-        } else {
-            document.getElementById("year-row").style.display = "none";
-        }
-
-        if (movie.durationMin != null) {
-            document.getElementById("movie-duration").textContent = `${movie.durationMin} min`;
-        } else {
-            document.getElementById("duration-row").style.display = "none";
-        }
-
-        if (movie.rated && movie.rated !== "N/A") {
-            document.getElementById("movie-rated").textContent = movie.rated;
-        } else {
-            document.getElementById("rated-row").style.display = "none";
-        }
-
-        if (movie.category && movie.category !== "N/A") {
-            document.getElementById("movie-category").textContent = movie.category;
-        } else {
-            document.getElementById("category-row").style.display = "none";
-        }
-
+        document.getElementById("movie-year").textContent = movie.movieYear ?? "Ukendt";
+        document.getElementById("movie-duration").textContent = movie.durationMin ? `${movie.durationMin} min` : "Ukendt";
+        document.getElementById("movie-rated").textContent = movie.rated && movie.rated !== "N/A" ? movie.rated : "Ikke oplyst";
+        document.getElementById("movie-category").textContent = movie.category && movie.category !== "N/A" ? movie.category : "Ikke oplyst";
         document.getElementById("movie-is3d").textContent = movie.is3d ? "Ja" : "Nej";
 
     } catch (err) {
