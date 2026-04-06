@@ -25,6 +25,7 @@ async function loadMovies() {
                 <h3>${movie.title}</h3>
                 <p>${movie.is3d ? "3D-film" : "2D-film"}</p>
                 <button onclick="goToMovieDetails(${movie.id})">Se detaljer</button>
+                <button onclick="goToReservation(${movie.id})">Reservér</button>
             </div>
         `).join("");
 
@@ -102,6 +103,10 @@ async function loadShowings() {
 
 function goToMovieDetails(movieId) {
     window.location.href = `movie-details.html?id=${movieId}`;
+}
+
+function goToReservation(movieId) {
+    window.location.href = `reservations.html?id=${movieId}`;
 }
 
 function reserve(showingId) {
