@@ -27,4 +27,6 @@ public class OmdbMovieDTO {
     @JsonProperty("Response")
     public String response;
 
+    @JsonProperty("imdbID")
+    public String imdbId;
 }
