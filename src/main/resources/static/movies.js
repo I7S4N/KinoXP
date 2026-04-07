@@ -1,27 +1,68 @@
 const API_BASE = "http://localhost:8080";
 
-async function createMovie() {
+async function searchMovies() {
     const titleInput = document.getElementById("movieTitle");
-    const is3dInput = document.getElementById("is3d");
     const message = document.getElementById("message");
+    const searchResults = document.getElementById("searchResults");
 
     const title = titleInput.value.trim();
-    const is3d = is3dInput.checked;
 
     message.textContent = "";
+    searchResults.innerHTML = "";
 
     if (!title) {
         message.textContent = "Indtast en filmtitel.";
+        message.style.color = "red";
         return;
     }
 
+    try {
+        const res = await fetch(`${API_BASE}/api/movies/search?title=${encodeURIComponent(title)}`);
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            message.textContent = "Kunne ikke finde film: " + errorText;
+            message.style.color = "red";
+            return;
+        }
+
+        const movies = await res.json();
+
+        if (movies.length === 0) {
+            message.textContent = "Ingen film fundet.";
+            message.style.color = "red";
+            return;
+        }
+
+        searchResults.innerHTML = movies.map(movie => `
+            <div class="movie-card">
+                <h3>${movie.title}</h3>
+                <p>År: ${movie.year ?? "Ikke oplyst"}</p>
+                <p>Type: ${movie.type ?? "Ukendt"}</p>
+                <button onclick="selectMovie('${movie.imdbId}')">Tilføj film</button>
+            </div>
+        `).join("");
+
+    } catch (err) {
+        console.error(err);
+        message.textContent = "Serverfejl. Prøv igen.";
+        message.style.color = "red";
+    }
+}
+
+async function selectMovie(imdbId) {
+    const is3dInput = document.getElementById("is3d");
+    const message = document.getElementById("message");
+    const searchResults = document.getElementById("searchResults");
+    const titleInput = document.getElementById("movieTitle");
+
     const body = {
-        title: title,
-        is3d: is3d
+        imdbId: imdbId,
+        is3d: is3dInput.checked
     };
 
     try {
-        const res = await fetch(`${API_BASE}/api/movies`, {
+        const res = await fetch(`${API_BASE}/api/movies/from-imdb`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -40,6 +81,8 @@ async function createMovie() {
 
         message.textContent = `Film oprettet: ${movie.title}`;
         message.style.color = "lightgreen";
+
+        searchResults.innerHTML = "";
         titleInput.value = "";
         is3dInput.checked = false;
 
@@ -48,6 +91,7 @@ async function createMovie() {
     } catch (err) {
         console.error(err);
         message.textContent = "Serverfejl. Prøv igen.";
+        message.style.color = "red";
     }
 }
 
@@ -73,10 +117,10 @@ async function loadMovies() {
         movies.forEach(movie => {
             const li = document.createElement("li");
             li.innerHTML = `
-                    <strong>${movie.title}</strong>
-                    ${movie.is3d ? "(3D)" : ""}
-                    <button onclick="showMovieDetails(${movie.id})">Vis detaljer</button>
-                `;
+                <strong>${movie.title}</strong>
+                ${movie.is3d ? "(3D)" : ""}
+                <button onclick="showMovieDetails(${movie.id})">Vis detaljer</button>
+            `;
             movieList.appendChild(li);
         });
 

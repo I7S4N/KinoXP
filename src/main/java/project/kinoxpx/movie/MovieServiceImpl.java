@@ -3,6 +3,8 @@ package project.kinoxpx.movie;
 import project.kinoxpx.exceptions.InvalidRequestException;
 import project.kinoxpx.exceptions.ResourceNotFoundException;
 import project.kinoxpx.external.OmdbMovieDTO;
+import project.kinoxpx.external.OmdbSearchItemDTO;
+import project.kinoxpx.external.OmdbSearchResponseDTO;
 import project.kinoxpx.external.OmdbService;
 import org.springframework.stereotype.Service;
 
@@ -98,20 +100,62 @@ public class MovieServiceImpl implements MovieService {
         //Gemmer Movie entity i databasen viaMovieRepository
         movie = movieRepository.save(movie);
 
-
         //Mapper den gemte Movie Entity til movieResponse DTO
         //DTO bruges til at sende data tilbage til klienten
 
-        // TODO: måske slette de nedenstående udkommenterede linjer
-//        return new MovieResponseDTO(
-//                movie.getId(),
-//                movie.getTitle(),
-//                movie.getMovieYear(),
-//                movie.getDurationMin(),
-//                movie.getRated(),
-//                movie.getCategory(),
-//                movie.getIs3d()
-//        );
+        return mapToDTO(movie);
+    }
+
+    @Override
+    public List<OmdbSearchItemDTO> searchMovies(String title) {
+        if (title == null || title.isBlank()) {
+            throw new InvalidRequestException("Title cannot be empty");
+        }
+
+        OmdbSearchResponseDTO response = omdbService.searchMovies(title);
+
+        if (response == null) {
+            throw new ResourceNotFoundException("No response from OMDb");
+        }
+
+        if ("False".equalsIgnoreCase(response.response) || response.search == null || response.search.isEmpty()) {
+            throw new ResourceNotFoundException("Movie not found in OMDb");
+        }
+
+        return response.search;
+    }
+
+    @Override
+    public MovieResponseDTO createMovieFromImdb(CreateMovieFromImdbRequestDTO req) {
+        if (req.imdbId() == null || req.imdbId().isBlank()) {
+            throw new InvalidRequestException("IMDb ID cannot be empty");
+        }
+
+        Optional<Movie> existingMovie = movieRepository.findByImdbId(req.imdbId());
+        if (existingMovie.isPresent()) {
+            throw new InvalidRequestException("Movie cannot be duplicated");
+        }
+
+        OmdbMovieDTO omdbMovie = omdbService.fetchMovieByImdbId(req.imdbId());
+
+        if (omdbMovie == null) {
+            throw new ResourceNotFoundException("No response from OMDb: " + omdbMovie.error);
+        }
+
+        if (omdbMovie.title == null || omdbMovie.title.isBlank()) {
+            throw new ResourceNotFoundException("Movie title not found in OMDb");
+        }
+
+        Movie movie = new Movie();
+        movie.setImdbId(omdbMovie.imdbId);
+        movie.setTitle(omdbMovie.title);
+        movie.setMovieYear(parseYear(omdbMovie.year));
+        movie.setDurationMin(parseRuntime(omdbMovie.runtime));
+        movie.setCategory(omdbMovie.genre);
+        movie.setRated(omdbMovie.rated);
+        movie.setIs3d(req.is3d());
+
+        movie = movieRepository.save(movie);
 
         return mapToDTO(movie);
     }

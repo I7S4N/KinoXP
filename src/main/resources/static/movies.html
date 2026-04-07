@@ -15,8 +15,9 @@
     </nav>
 </header>
 
+<!-- Search flow -->
 <main>
-    <h2>Opret film</h2>
+    <h2>Søg film</h2>
 
     <input id="movieTitle" type="text" placeholder="Film titel">
 
@@ -25,13 +26,34 @@
         <input id="is3d" type="checkbox">
     </label>
 
-    <button onclick="createMovie()">Opret film</button>
+    <button onclick="searchMovies()">Søg film</button>
 
     <p id="message"></p>
+
+    <div id="searchResults"></div>
 
     <h2>Filmliste</h2>
     <ul id="movieList"></ul>
 </main>
+
+<!-- TODO: FØR SEARCHFLOW FUNKTION -->
+<!--<main>-->
+<!--    <h2>Opret film</h2>-->
+
+<!--    <input id="movieTitle" type="text" placeholder="Film titel">-->
+
+<!--    <label>-->
+<!--        3D-film-->
+<!--        <input id="is3d" type="checkbox">-->
+<!--    </label>-->
+
+<!--    <button onclick="createMovie()">Opret film</button>-->
+
+<!--    <p id="message"></p>-->
+
+<!--    <h2>Filmliste</h2>-->
+<!--    <ul id="movieList"></ul>-->
+<!--</main>-->
 
 <script src="/movies.js"></script>
 </body>

@@ -306,6 +306,18 @@ p {
     line-height: 1.5;
 }
 
+#searchResults {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.movie-card {
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
 @media (max-width: 600px) {
     header h1 {
         font-size: 2.2rem;

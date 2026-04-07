@@ -3,6 +3,7 @@ package project.kinoxpx.movie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.kinoxpx.external.OmdbSearchItemDTO;
 
 import java.util.List;
 
@@ -28,6 +29,17 @@ public class MovieController {
     @PostMapping
     public ResponseEntity<MovieResponseDTO> createMovie(@RequestBody CreateMovieRequestDTO req) {
         MovieResponseDTO response = movieService.createMovie(req);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<OmdbSearchItemDTO>> searchMovies(@RequestParam String title) {
+        return ResponseEntity.ok(movieService.searchMovies(title));
+    }
+
+    @PostMapping("/from-imdb")
+    public ResponseEntity<MovieResponseDTO> createMovieFromImdb(@RequestBody CreateMovieFromImdbRequestDTO req) {
+        MovieResponseDTO response = movieService.createMovieFromImdb(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

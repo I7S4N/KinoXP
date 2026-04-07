@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
     Optional<Movie> findByTitleIgnoreCase(String title);
+    Optional<Movie> findByImdbId(String imdbId);
 }

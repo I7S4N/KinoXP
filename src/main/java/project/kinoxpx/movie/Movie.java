@@ -27,6 +27,9 @@ public class Movie {
     @Column(nullable = false)
     private boolean is3d;
 
+    @Column(unique = true)
+    private String imdbId;
+
     public Movie(Long id, String title, Integer movieYear, Integer durationMin, String rated, String category, boolean is3d) {
         this.id = id;
         this.title = title;
@@ -94,5 +97,13 @@ public class Movie {
 
     public void setIs3d(boolean is3d) {
         this.is3d = is3d;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
     }
 }

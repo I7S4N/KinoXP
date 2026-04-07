@@ -2,34 +2,41 @@ package project.kinoxpx.external;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class OmdbService {
 
-        //Vores adgangsnøgle til OMDb API.
-        //Den eksterne API som vi vælger at hente fra
-        private final String API_KEY = "b25ef649";
+    private final String API_KEY = "b25ef649";
+    private final RestTemplate restTemplate = new RestTemplate();
 
-        //Bruger vi til at sende HTTP forespørgelser til OMDb API
-        private final RestTemplate restTemplate = new RestTemplate();
+    public OmdbMovieDTO fetchMovieByTitle(String title) {
+        String url = UriComponentsBuilder
+                .fromUriString("https://www.omdbapi.com/")
+                .queryParam("apikey", API_KEY)
+                .queryParam("t", title)
+                .toUriString();
 
-        //objektet her mapper JSON data
-        public OmdbMovieDTO fetchMovieByTitle(String title){
+        return restTemplate.getForObject(url, OmdbMovieDTO.class);
+    }
 
+    public OmdbSearchResponseDTO searchMovies(String title) {
+        String url = UriComponentsBuilder
+                .fromUriString("https://www.omdbapi.com/")
+                .queryParam("apikey", API_KEY)
+                .queryParam("s", title)
+                .toUriString();
 
-            // her bygger vi URL til OMBd API
-            // Vi starter med base URL, derefter tilføjes API nøglen
-            // Dernæst tilføjes søgeparameter
-            String url = "https://www.omdbapi.com/?apikey="
-                    + API_KEY
-                    + "&t="
-                    + title;
+        return restTemplate.getForObject(url, OmdbSearchResponseDTO.class);
+    }
 
-            // kalder API og mapper JSON til DTO
-            // Vi kalder URL vi byggede også mapper JACKSON,
-            // JSON svaret automatisk til OmdbMovieDTO
-            return restTemplate.getForObject(url, OmdbMovieDTO.class);
+    public OmdbMovieDTO fetchMovieByImdbId(String imdbId) {
+        String url = UriComponentsBuilder
+                .fromUriString("https://www.omdbapi.com/")
+                .queryParam("apikey", API_KEY)
+                .queryParam("i", imdbId)
+                .toUriString();
 
-        }
-
+        return restTemplate.getForObject(url, OmdbMovieDTO.class);
+    }
 }

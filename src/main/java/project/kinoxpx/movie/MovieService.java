@@ -1,5 +1,6 @@
 package project.kinoxpx.movie;
 
+import project.kinoxpx.external.OmdbSearchItemDTO;
 import java.util.List;
 
 public interface MovieService {
@@ -12,4 +13,7 @@ public interface MovieService {
     MovieResponseDTO updateMovie(Long id, CreateMovieRequestDTO req);
     void deleteMovie(Long id);
     MovieResponseDTO getMovieById(Long id);
+
+    List<OmdbSearchItemDTO> searchMovies(String title);
+    MovieResponseDTO createMovieFromImdb(CreateMovieFromImdbRequestDTO req);
 }
