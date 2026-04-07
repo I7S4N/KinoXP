@@ -32,12 +32,14 @@ async function createMovie() {
         if (!res.ok) {
             const errorText = await res.text();
             message.textContent = "Kunne ikke oprette film: " + errorText;
+            message.style.color = "red";
             return;
         }
 
         const movie = await res.json();
 
         message.textContent = `Film oprettet: ${movie.title}`;
+        message.style.color = "lightgreen";
         titleInput.value = "";
         is3dInput.checked = false;
 

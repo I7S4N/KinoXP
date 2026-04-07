@@ -21,5 +21,10 @@ public class OmdbMovieDTO {
     @JsonProperty("Rated")
     public String rated;
 
+    @JsonProperty("Error")
+    public String error;
+
+    @JsonProperty("Response")
+    public String response;
 
 }

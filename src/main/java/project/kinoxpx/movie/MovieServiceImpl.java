@@ -56,17 +56,23 @@ public class MovieServiceImpl implements MovieService {
 
         if (existingMovie.isPresent()) {
             // Hvis filmen allerede findes returnerer vi den eksisterende
-            return mapToDTO(existingMovie.get());
+            throw new InvalidRequestException("Movie cannot be duplicated");
         }
-
 
         // Henter vi film fra OMDB API
         OmdbMovieDTO omdbMovie = omdbService.fetchMovieByTitle(req.title());
 
-        if (omdbMovie == null || omdbMovie.title == null) {
-            throw new ResourceNotFoundException("Movie not found in OMDB");
+        if (omdbMovie == null) {
+            throw new ResourceNotFoundException("No response from OMDb");
         }
 
+        if ("False".equalsIgnoreCase(omdbMovie.response)) {
+            throw new ResourceNotFoundException("Movie not found in OMDb: " + omdbMovie.error);
+        }
+
+        if (omdbMovie.title == null || omdbMovie.title.isBlank()) {
+            throw new ResourceNotFoundException("Movie title not found in OMDb");
+        }
 
         // Mapper data fra CreateMovieRequest (DTO fra klienten) til Movie entity
         Movie movie = new Movie();
@@ -96,7 +102,7 @@ public class MovieServiceImpl implements MovieService {
         //Mapper den gemte Movie Entity til movieResponse DTO
         //DTO bruges til at sende data tilbage til klienten
 
-        // måske slette 104 - 112
+        // TODO: måske slette de nedenstående udkommenterede linjer
 //        return new MovieResponseDTO(
 //                movie.getId(),
 //                movie.getTitle(),
@@ -112,27 +118,35 @@ public class MovieServiceImpl implements MovieService {
 
     // fjerner alle mellemrum og ekstra tal udover de fire første cifre
     private int parseYear(String year) {
+        if (year == null || year.isBlank() || year.equalsIgnoreCase("N/A")) {
+            return 0;
+        }
+
         try {
             String cleaned = year.replaceAll("[^0-9]", "");
             if (cleaned.length() < 4) {
-                throw new InvalidRequestException("Invalid year format");
+                return 0;
             }
             return Integer.parseInt(cleaned.substring(0, 4));
         } catch (Exception e) {
-            throw new InvalidRequestException("Invalid year format");
+            return 0;
         }
     }
 
     // sikrer ordenligt format, når admin indtaster varighed på film
     private int parseRuntime(String runtime) {
+        if (runtime == null || runtime.isBlank() || runtime.equalsIgnoreCase("N/A")) {
+            return 0;
+        }
+
         try {
             String cleaned = runtime.replaceAll("[^0-9]", "");
             if (cleaned.isBlank()) {
-                throw new InvalidRequestException("Invalid runtime format");
+                return 0;
             }
             return Integer.parseInt(cleaned);
         } catch (Exception e) {
-            throw new InvalidRequestException("Invalid runtime format");
+            return 0;
         }
     }
 
